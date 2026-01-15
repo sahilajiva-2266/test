@@ -75,7 +75,7 @@ mongoose
   .catch((err) => console.log(err));
 
 //=======================Middleware===============================//
-app.use(cors(corsOptions));
+app.use(cors("*"));
 app.use("/uploads", express.static(UPLOAD_ROOT));
 
 // Explicit auth alias to user routes so frontend /api/auth/* continues to work
