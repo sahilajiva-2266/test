@@ -1,0 +1,104 @@
+.pid_Qr_page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+.pid_Qr_card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.pid_Qr_logoWrap {
+height: auto;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+    width: 60%;
+}
+
+.pid_Qr_logo {
+  width: 200px;
+  max-width: 100%;
+}
+
+.pid_Qr_title {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #0f172a;
+  font-weight: 500;
+}
+
+.pid_Qr_subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 24px; 
+  margin-left: 0; 
+    margin-right: 0;
+}
+
+.pid_Qr_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #ffffff;
+  margin-bottom: 14px;
+  transition: background 0.2s ease;
+}
+
+.pid_Qr_android {
+  background: #16a34a;
+}
+
+.pid_Qr_android:hover {
+  background: #15803d;
+}
+
+.pid_Qr_ios {
+  background: #0f172a;
+}
+
+.pid_Qr_ios:hover {
+  background: #020617;
+}
+
+.pid_Qr_note {
+  margin-top: 16px;
+  font-size: 12px;
+  color: #6b7280;
+}
+@media(max-width: 480px) {
+    .pid_Qr_card {
+    padding: 24px 14px;
+  }
+
+  .pid_Qr_title {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .pid_Qr_btn {
+    font-size: 12px;
+    padding: 8px 12px;
+    gap: 5px;
+  }
+}
