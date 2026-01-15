@@ -1,0 +1,1949 @@
+{
+  "info": {
+    "name": "InOut360 API (Backend)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth / User",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/user/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ravi Kumar\",\n  \"employeeId\": \"EMP-104\",\n  \"email\": \"ravi104@example.com\",\n  \"password\": \"Passw0rd!\",\n  \"role\": \"employee\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/user/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"ravi104@example.com\",\n  \"password\": \"Passw0rd!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Forgot Password (Send OTP)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/user/forgot-password",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"ravi104@example.com\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Verify OTP (Reset Password)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/user/verify-otp",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"ravi104@example.com\",\n  \"otp\": \"123456\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/user/reset-password",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"ravi104@example.com\",\n  \"newPassword\": \"NewPass@123\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "QR",
+      "item": [
+        {
+          "name": "Generate QR",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/qr/generate",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"login\",\n  \"location\": \"Gate-1\",\n  \"expiresIn\": 300\n}"
+            }
+          }
+        },
+        {
+          "name": "Generate QR PNG",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "image/png"
+              }
+            ],
+            "url": "{{base_url}}/qr/generate-png",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"login\",\n  \"location\": \"Gate-1\",\n  \"expiresIn\": 300\n}"
+            }
+          }
+        },
+        {
+          "name": "Consume QR",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/qr/consume",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"{{qr_token}}\",\n  \"userId\": \"{{employee_id}}\",\n  \"deviceId\": \"DEV-777\",\n  \"location\": \"Gate-1\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Device",
+      "item": [
+        {
+          "name": "Register Device",
+          "description": "Requires existing employee with matching name. Fields: name, employeeId, deviceId. Optional: deviceName/platform/model/osVersion/appVersion.",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/device/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ravi Kumar\",\n  \"employeeId\": \"EMP-104\",\n  \"deviceId\": \"DEV-777\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Send OTP",
+          "description": "Send device OTP. Body: userId (user _id or employeeId/_id), employeeId (optional), deviceId or deviceName. Requires OTP email to be configured (superadmin).",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/device/send-otp",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{user_or_employee_id}}\",\n  \"employeeId\": \"EMP001\",\n  \"deviceId\": \"DEV-777\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Verify OTP",
+          "description": "Verify OTP. Header: x-device-id (deviceId) or deviceId in body. Body: otpTransactionId, otp.",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-device-id",
+                "value": "DEV-777"
+              }
+            ],
+            "url": "{{base_url}}/device/verify-otp",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"otpTransactionId\": \"{{otp_txn_id}}\",\n  \"otp\": \"123456\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Set Device Policy",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/device/{{device_id}}/policy",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cameraDisabled\": false,\n  \"uninstallBlocked\": true,\n  \"kioskMode\": false,\n  \"allowedApps\": [\"com.example.app\"],\n  \"blockedApps\": [\"com.bad.app\"]\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Device Policy",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/device/{{device_id}}/policy"
+          }
+        },
+        {
+          "name": "Device Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/device/device-event",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deviceId\": \"{{device_id}}\",\n  \"event\": \"camera_opened\",\n  \"cameraStatus\": \"on\",\n  \"name\": \"Ravi Kumar\",\n  \"employeeId\": \"EMP-104\",\n  \"imagePath\": \"/path/to/image.jpg\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Set OTP Email (superadmin)",
+          "description": "Superadmin only. Configures global OTP destination email. Requires Authorization: Bearer {{auth_token}} for superadmin.",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/otp/otp-email",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"otp@example.com\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get OTP Email (superadmin)",
+          "description": "Superadmin only. Fetch global OTP destination email. Requires Authorization: Bearer {{auth_token}} for superadmin.",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/otp/otp-email"
+          }
+        },
+        {
+          "name": "Track Device",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/device/track",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deviceId\": \"DEV-777\",\n  \"lat\": 28.61,\n  \"lng\": 77.20\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Devices",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/device"
+          }
+        },
+        {
+          "name": "Get Device By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/device/{{device_id}}"
+          }
+        },
+        {
+          "name": "Register Device (Visitor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/device/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Visitor Name\",\n  \"deviceId\": \"DEV-777\"\n}"
+            }
+          },
+          "description": "Registers a visitor device (no employeeId)."
+        },
+        {
+          "name": "Verify Register Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/device/verify-token",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deviceId\": \"DEV-777\",\n  \"registerToken\": \"{{register_token}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Add Device (Admin Alias)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/device/add",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{user_or_employee_id}}\",\n  \"employeeId\": \"EMP001\",\n  \"deviceId\": \"DEV-777\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Toggle Device Policy",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/device/{{device_id}}/policy/toggle",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"field\": \"cameraDisabled\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employees",
+      "item": [
+        {
+          "name": "Add Employee",
+          "description": "Create employee and linked user. No password required/stored. Auth required (Bearer).",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/employees",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Amit\",\n  \"lastName\": \"Sharma\",\n  \"gender\": \"Male\",\n  \"dob\": \"1990-01-01\",\n  \"email\": \"amit.sharma@example.com\",\n  \"phone\": \"5550010001\",\n  \"employeeId\": \"EMP001\",\n  \"rfid\": \"RFID-EMP-001\",\n  \"joiningDate\": \"2023-01-01\",\n  \"designation\": \"Operator\",\n  \"department\": \"Operations\",\n  \"section\": \"Assembly\",\n  \"shift\": \"Morning\",\n  \"employmentType\": \"Full time\",\n  \"role\": \"employee\",\n  \"status\": \"Active\",\n  \"currentAddress\": {\n    \"street\": \"123 Main St\",\n    \"city\": \"Delhi\",\n    \"state\": \"DL\",\n    \"pincode\": \"110001\"\n  },\n  \"permanentAddress\": {\n    \"street\": \"123 Main St\",\n    \"city\": \"Delhi\",\n    \"state\": \"DL\",\n    \"pincode\": \"110001\"\n  },\n  \"bankDetails\": {\n    \"aadharcardnumber\": \"123412341234\",\n    \"pancard\": \"ABCDE1234F\",\n    \"accountNumber\": \"000111222333\",\n    \"ifscCode\": \"IFSC0001\"\n  },\n  \"emergencyContact\": {\n    \"name\": \"Ramesh\",\n    \"relation\": \"Brother\",\n    \"phone\": \"9998887771\"\n  }\n}"
+            }
+          }
+        },
+        {
+          "name": "List Employees",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/employees"
+          }
+        },
+        {
+          "name": "Update Employee Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/employees/status",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": \"EMP001\",\n  \"status\": \"Active\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Employee",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/employees/{{employee_db_id}}"
+          }
+        },
+        {
+          "name": "Add Employee (Form Data)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/employees",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "firstName",
+                  "value": "Amit",
+                  "type": "text"
+                },
+                {
+                  "key": "lastName",
+                  "value": "Sharma",
+                  "type": "text"
+                },
+                {
+                  "key": "gender",
+                  "value": "Male",
+                  "type": "text"
+                },
+                {
+                  "key": "dob",
+                  "value": "1990-01-01",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "amit.sharma@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "5550010001",
+                  "type": "text"
+                },
+                {
+                  "key": "employeeId",
+                  "value": "EMP001",
+                  "type": "text"
+                },
+                {
+                  "key": "designation",
+                  "value": "Operator",
+                  "type": "text"
+                },
+                {
+                  "key": "department",
+                  "value": "Operations",
+                  "type": "text"
+                },
+                {
+                  "key": "role",
+                  "value": "employee",
+                  "type": "text"
+                },
+                {
+                  "key": "status",
+                  "value": "Active",
+                  "type": "text"
+                },
+                {
+                  "key": "profileImage",
+                  "type": "file"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Employees",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/employees/search"
+          }
+        },
+        {
+          "name": "Get Employee By Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/employees/{{employee_db_id}}"
+          }
+        },
+        {
+          "name": "Update Employee",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/employees/{{employee_db_id}}",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "designation",
+                  "value": "Senior Operator",
+                  "type": "text"
+                },
+                {
+                  "key": "department",
+                  "value": "Operations",
+                  "type": "text"
+                },
+                {
+                  "key": "profileImage",
+                  "type": "file"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Employee (Batch)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/employees/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"{{employee_db_id}}\"\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Employee Indexes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/employees/indexes"
+          }
+        },
+        {
+          "name": "Cleanup Employee Indexes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/employees/cleanup-indexes"
+          }
+        },
+        {
+          "name": "Get Employee Indexes (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/employees/indexes/public"
+          }
+        },
+        {
+          "name": "Cleanup Employee Indexes (Public)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{base_url}}/employees/cleanup-indexes/public"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Attendance",
+      "item": [
+        {
+          "name": "Add Attendance",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/attendance",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": \"{{employee_db_id}}\",\n  \"date\": \"2024-10-01\",\n  \"status\": \"Present\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Attendance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/attendance"
+          }
+        },
+        {
+          "name": "Add Attendance (Alias)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/attendance/add",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": \"{{employee_db_id}}\",\n  \"date\": \"2024-10-01\",\n  \"status\": \"Present\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Attendance (All)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/attendance/all"
+          }
+        },
+        {
+          "name": "Search Attendance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/attendance/search"
+          }
+        },
+        {
+          "name": "Get Attendance By Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/attendance/{{attendance_id}}"
+          }
+        },
+        {
+          "name": "Update Attendance",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/attendance/{{attendance_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Absent\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Attendance (Batch)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/attendance/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"{{attendance_id}}\"\n  ]\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Activity",
+      "item": [
+        {
+          "name": "Add Activity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/activity",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Machine Check\",\n  \"description\": \"Checked machine status\",\n  \"type\": \"maintenance\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Activity",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/activity"
+          }
+        },
+        {
+          "name": "Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/activity/summary"
+          }
+        },
+        {
+          "name": "Search Activity",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/activity/search"
+          }
+        },
+        {
+          "name": "Get Activity By Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/activity/{{activity_id}}"
+          }
+        },
+        {
+          "name": "Delete Activity (Batch)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/activity/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"{{activity_id}}\"\n  ]\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contractors",
+      "item": [
+        {
+          "name": "Add Contractor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/contractors",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Primary Contractor\",\n  \"contactPerson\": \"Jane Doe\",\n  \"contactPhone\": \"987650001\",\n  \"gstNumber\": \"GST1001\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Contractors",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/contractors"
+          }
+        },
+        {
+          "name": "Search Contractors",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/contractors/search"
+          }
+        },
+        {
+          "name": "Get Contractor By Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/contractors/{{contractor_id}}"
+          }
+        },
+        {
+          "name": "Update Contractor",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/contractors/{{contractor_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Primary Contractor\",\n  \"contactPerson\": \"Jane Doe\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Contractor",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/contractors/{{contractor_id}}"
+          }
+        },
+        {
+          "name": "Delete Contractors (Batch)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/contractors/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"{{contractor_id}}\"\n  ]\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Locations",
+      "item": [
+        {
+          "name": "Add Location",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/location/add",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Office Gate\",\n  \"lat\": 28.6139,\n  \"lng\": 77.2090,\n  \"radius\": 20\n}"
+            }
+          }
+        },
+        {
+          "name": "List Locations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/location"
+          }
+        },
+        {
+          "name": "Get Location By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/location/{{location_id}}"
+          }
+        },
+        {
+          "name": "Update Location",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/location/{{location_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Office Gate\",\n  \"lat\": 28.6139,\n  \"lng\": 77.209,\n  \"radius\": 20\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Location",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base_url}}/location/{{location_id}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "RFID",
+      "item": [
+        {
+          "name": "Add RFID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/rfid",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rfid\": \"RFID-EMP-001\",\n  \"employeeId\": \"EMP001\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List RFID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/rfid"
+          }
+        },
+        {
+          "name": "Search RFID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/rfid/search"
+          }
+        },
+        {
+          "name": "Get RFID By Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/rfid/{{rfid_id}}"
+          }
+        },
+        {
+          "name": "Update RFID",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/rfid/{{rfid_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rfid\": \"RFID-EMP-001\",\n  \"employeeId\": \"EMP001\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete RFID",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/rfid/{{rfid_id}}"
+          }
+        },
+        {
+          "name": "Delete RFID (Batch)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/rfid/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"{{rfid_id}}\"\n  ]\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sections",
+      "item": [
+        {
+          "name": "Add Section",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/sections",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Assembly\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Sections",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/sections/all"
+          }
+        },
+        {
+          "name": "List Sections (All)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/sections/all"
+          }
+        },
+        {
+          "name": "Search Sections",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/sections/search"
+          }
+        },
+        {
+          "name": "Get Section By Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/sections/{{section_id}}"
+          }
+        },
+        {
+          "name": "Update Section",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/sections/{{section_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Assembly\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Section",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/sections/{{section_id}}"
+          }
+        },
+        {
+          "name": "Delete Sections (Batch)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/sections/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"{{section_id}}\"\n  ]\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Shift",
+      "item": [
+        {
+          "name": "Add Shift",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/shift",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Morning\",\n  \"startTime\": \"09:00\",\n  \"endTime\": \"17:00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Shifts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/shift/all"
+          }
+        },
+        {
+          "name": "List Shifts (All)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/shift/all"
+          }
+        },
+        {
+          "name": "Search Shifts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/shift/search"
+          }
+        },
+        {
+          "name": "Get Shift By Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/shift/{{shift_id}}"
+          }
+        },
+        {
+          "name": "Update Shift",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/shift/{{shift_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Morning\",\n  \"startTime\": \"09:00\",\n  \"endTime\": \"17:00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Shift",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/shift/{{shift_id}}"
+          }
+        },
+        {
+          "name": "Delete Shifts (Batch)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/shift/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"{{shift_id}}\"\n  ]\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Permissions",
+      "item": [
+        {
+          "name": "List Permissions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/permissions"
+          }
+        },
+        {
+          "name": "Add Permission",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/permissions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"admin\",\n  \"module\": \"employees\",\n  \"actions\": [\"create\", \"read\", \"update\", \"delete\"]\n}"
+            }
+          }
+        },
+        {
+          "name": "Search Permissions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/permissions/search"
+          }
+        },
+        {
+          "name": "Get Permission By Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/permissions/{{permission_id}}"
+          }
+        },
+        {
+          "name": "Update Permission",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/permissions/{{permission_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"admin\",\n  \"module\": \"employees\",\n  \"actions\": [\n    \"create\",\n    \"read\",\n    \"update\",\n    \"delete\"\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Permission",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/permissions/{{permission_id}}"
+          }
+        },
+        {
+          "name": "Delete Permissions (Batch)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/permissions/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"{{permission_id}}\"\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Rebuild Permissions (system)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/permissions/system"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Role",
+      "item": [
+        {
+          "name": "Add Role",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/role",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roleName\": \"manager\",\n  \"description\": \"Manager role\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Roles",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/role"
+          }
+        },
+        {
+          "name": "Search Roles",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/role/search"
+          }
+        },
+        {
+          "name": "Get Role By Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/role/{{role_id}}"
+          }
+        },
+        {
+          "name": "Update Role",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/role/{{role_id}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roleName\": \"manager\",\n  \"description\": \"Manager role\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Role",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/role/{{role_id}}"
+          }
+        },
+        {
+          "name": "Delete Roles (Batch)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/role/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"{{role_id}}\"\n  ]\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Settings",
+      "item": [
+        {
+          "name": "Get Settings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/settings"
+          }
+        },
+        {
+          "name": "Update Settings",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/settings",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyName\": \"InOut360\",\n  \"timezone\": \"Asia/Kolkata\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Settings (Form Data)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/settings",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "apiEndpointUrl",
+                  "value": "https://your-backend.com/api",
+                  "type": "text"
+                },
+                {
+                  "key": "unitLocation",
+                  "value": "Gate-1",
+                  "type": "text"
+                },
+                {
+                  "key": "deviceControls",
+                  "value": "{\"cameraAccess\":true}",
+                  "type": "text"
+                },
+                {
+                  "key": "alerts",
+                  "value": "{\"appInstallAlert\":true}",
+                  "type": "text"
+                },
+                {
+                  "key": "apkFile",
+                  "type": "file"
+                },
+                {
+                  "key": "companyLogo",
+                  "type": "file"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/dashboard/summary"
+          }
+        }
+      ]
+    },
+    {
+      "name": "OTP",
+      "item": [
+        {
+          "name": "Send OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/otp/send-otp",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Verify OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/otp/verify-otp",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"otpTransactionId\": \"{{otp_txn_id}}\",\n  \"otp\": \"123456\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Set OTP Email (superadmin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/otp/otp-email",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"otp@example.com\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get OTP Email (superadmin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": "{{base_url}}/otp/otp-email"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000/api"
+    },
+    {
+      "key": "auth_token",
+      "value": ""
+    },
+    {
+      "key": "employee_id",
+      "value": ""
+    },
+    {
+      "key": "employee_db_id",
+      "value": ""
+    },
+    {
+      "key": "qr_token",
+      "value": ""
+    },
+    {
+      "key": "otp_txn_id",
+      "value": ""
+    },
+    {
+      "key": "device_id",
+      "value": ""
+    },
+    {
+      "key": "user_or_employee_id",
+      "value": ""
+    },
+    {
+      "key": "attendance_id",
+      "value": ""
+    },
+    {
+      "key": "activity_id",
+      "value": ""
+    },
+    {
+      "key": "contractor_id",
+      "value": ""
+    },
+    {
+      "key": "location_id",
+      "value": ""
+    },
+    {
+      "key": "rfid_id",
+      "value": ""
+    },
+    {
+      "key": "section_id",
+      "value": ""
+    },
+    {
+      "key": "shift_id",
+      "value": ""
+    },
+    {
+      "key": "permission_id",
+      "value": ""
+    },
+    {
+      "key": "role_id",
+      "value": ""
+    },
+    {
+      "key": "register_token",
+      "value": ""
+    }
+  ]
+}
